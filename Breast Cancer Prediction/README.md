@@ -10,6 +10,61 @@ This project implements machine learning models to classify breast tumors as eit
 - Logistic Regression (98.25% accuracy)
 - Decision Tree Classifier (94.15% accuracy)
 
+### Model Selection Rationale
+
+We chose these specific models for the following reasons:
+
+1. **Logistic Regression**:
+   - Excellent performance for binary classification tasks
+   - Provides probability scores for predictions
+   - Highly interpretable - coefficients directly indicate feature importance
+   - Less prone to overfitting compared to more complex models
+   - Fast training and prediction times
+   - Suitable for medical applications where model transparency is crucial
+
+2. **Decision Tree**:
+   - Provides clear decision rules that can be easily understood by medical professionals
+   - Can capture non-linear relationships in the data
+   - No assumptions about feature distributions
+   - Feature importance is clearly visible in the tree structure
+   - Serves as a good comparison to Logistic Regression
+   - Useful for validating Logistic Regression results
+
+Both models were selected with a focus on interpretability and transparency, which is crucial in medical applications.
+
+## Results and Performance
+
+### Model Performance
+1. **Logistic Regression**:
+   - Accuracy: 98.25%
+   - Cross-validation score: 97.48% (±2.77%)
+   - Excellent precision and recall for both classes
+   - Consistent performance across different data splits
+   - Strong performance on both benign and malignant cases
+
+2. **Decision Tree**:
+   - Accuracy: 94.15%
+   - Cross-validation score: 90.96% (±3.26%)
+   - Good balance between precision and recall
+   - Slightly less stable than Logistic Regression
+   - More interpretable decision rules
+
+### Key Findings
+- Both models significantly outperform the baseline
+- Logistic Regression shows superior stability and accuracy
+- Decision Tree provides valuable complementary insights
+- Feature importance analysis reveals key predictors:
+  - Concave points_mean
+  - Area_mean
+  - Radius_mean
+  are the most significant predictors
+
+### Clinical Implications
+- High accuracy suitable for clinical decision support
+- Low false positive and false negative rates
+- Probability scores help assess prediction confidence
+- Model interpretability aids in clinical understanding
+
 ## Project Structure
 
 ```
