@@ -8,6 +8,9 @@ This project implements a Random Forest classifier to predict cardiovascular dis
 ## Osteoporosis Risk Prediction
 This project implements a machine learning model to predict osteoporosis risk based on various health factors and demographic information. Osteoporosis is a condition that weakens bones, making them fragile and more likely to break. It develops slowly over several years and is often only diagnosed when a minor fall or sudden impact causes a bone fracture. The model helps healthcare providers identify patients who may be at risk of developing osteoporosis, enabling early intervention and prevention strategies.
 
+## Gender and Age Detection
+This project implements a real-time gender and age detection system using deep learning models. It can detect faces in images or video streams and predict the gender and approximate age range of detected individuals. The system uses OpenCV's DNN module and pre-trained Caffe models for accurate predictions.
+
 ## Speech Emotion Analyzer
 A deep learning model that detects emotions from speech using audio files. The model can:
 
