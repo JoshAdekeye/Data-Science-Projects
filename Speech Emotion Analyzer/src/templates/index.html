@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Emotion Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+        }
+        .error {
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            color: #a94442;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Speech Emotion Analyzer</h1>
+        <div>
+            <h3>Upload Audio File</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="audio" accept="audio/*" required>
+                <button type="submit" class="button">Analyze</button>
+            </form>
+        </div>
+        <div>
+            <h3>Record Audio</h3>
+            <button id="recordButton" class="button">Start Recording</button>
+            <button id="stopButton" class="button" style="display: none;">Stop Recording</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // File upload handling
+        document.getElementById('uploadForm').onsubmit = function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch('/analyze', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResult(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                displayResult({error: 'Error processing audio file'});
+            });
+        };
+
+        // Audio recording handling
+        let mediaRecorder;
+        let audioChunks = [];
+
+        document.getElementById('recordButton').onclick = async function() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob);
+
+                    const response = await fetch('/analyze', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    displayResult(data);
+                };
+
+                mediaRecorder.start();
+                document.getElementById('recordButton').style.display = 'none';
+                document.getElementById('stopButton').style.display = 'inline-block';
+            } catch (error) {
+                console.error('Error:', error);
+                displayResult({error: 'Error accessing microphone'});
+            }
+        };
+
+        document.getElementById('stopButton').onclick = function() {
+            mediaRecorder.stop();
+            document.getElementById('recordButton').style.display = 'inline-block';
+            document.getElementById('stopButton').style.display = 'none';
+        };
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            if (data.error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = data.error;
+            } else {
+                resultDiv.className = 'success';
+                resultDiv.textContent = `Detected Emotion: ${data.emotion}`;
+            }
+        }
+    </script>
+</body>
+</html>
