@@ -18,3 +18,6 @@ A deep learning model that detects emotions from speech using audio files. The m
 - Distinguish between male and female voices
 - Classify emotions into categories: neutral, happy, sad, angry, and fearful
 - Provide real-time analysis through a web interface
+
+## Bank Marketing Campaign Analysis: Term Deposit Prediction
+This project analyzes a Portuguese banking institution's direct marketing campaigns (phone calls) to predict whether clients will subscribe to a term deposit. The goal is to help the bank optimize its marketing strategies by identifying potential customers most likely to subscribe, thereby increasing campaign efficiency and reducing costs. By leveraging machine learning techniques, we can uncover patterns and factors that influence customers' decisions to subscribe to term deposits.
